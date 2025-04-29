@@ -1,36 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 
 export interface IProduct{
-    id: number,
-    name: string,
+    id: string,
     description: string,
     price: number,
-    stock: number
+    cost: number,
+    stock: number,
+    unit: string,
+    category: string,
+    image?: string
 }
 
 @Injectable()
 export class ProductsService {
-    private products = [
-        {
-            id: 1, 
-            name: 'product1', 
-            description: 'description1', 
-            price: 100, 
-            stock: 10
-        }, 
-        {
-            id: 2, 
-            name: 'product2', 
-            description: 'description2', 
-            price: 200, 
-            stock: 20
-        }
-    ];
+    constructor(private prisma: PrismaService) {}
+
     getAllProducts() {
-        return this.products;
+        return this.prisma.product.findMany();
     }
     addProduct(newProduct: IProduct) {
-        this.products.push(newProduct);
-        return newProduct;
+        return this.prisma.product.create({data: newProduct});
     }
 }
