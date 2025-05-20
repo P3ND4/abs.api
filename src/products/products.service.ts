@@ -20,7 +20,7 @@ export class ProductsService {
         return this.prisma.product.findMany();
     }
     addProduct(newProduct: IProduct) {
-        newProduct.image = "https://m.media-amazon.com/images/I/51C8JRX9DdL._AC_UL320_.jpg"
+        newProduct.image = newProduct.image? newProduct.image : "https://m.media-amazon.com/images/I/51C8JRX9DdL._AC_UL320_.jpg"
         return this.prisma.product.create({data: newProduct});
     }
 }
